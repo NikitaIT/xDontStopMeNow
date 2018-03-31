@@ -13,12 +13,17 @@ html, body
 	height: 100%
 
 body
+	background-image: url(https://pp.userapi.com/c841330/v841330898/52796/vNsOjIXQMPQ.jpg)
+	background-repeat: no-repeat
+	background-position: bottom right
+	background-size: 50%
 	font-size: 16px
 	min-width: 320px
 	position: relative
 	line-height: 1.65
 	font-family: $default-font
 	overflow-x: hidden
+	min-height: 100%
 	input, textarea
 			border: #666 1px solid
 			outline: none
@@ -35,5 +40,109 @@ body
 .text-center
 	text-align: center
 
+.men-says
+	text-align: center
+	font-family: roboto-example, sans-serif
+	color: #36d4e9
+.hidden
+	display: none
+.visually-hidden
+	position: absolute
+	clip: rect(0 0 0 0)
+	width: 1px
+	height: 1px
+	margin: -1px
+
+h3
+	display: table
+	width: auto
+	margin: 15px auto
+	letter-spacing: 2px
+	color: #17347e
+	position: relative
+	z-index: 1
+	text-shadow: 2px -1px 0 #fdd57b
+	transition: all 1s
+	.first-letters
+		text-shadow: -2px 1px 0 white
+h3:before
+	content: ""
+	position: absolute
+	top: -50%
+	left: -25px
+	z-index: -1
+	background: #fed57b
+	width: 50px
+	height: 50px
+	border-radius: 50%
+	box-shadow: 35px 30px 1px -15px #fdd57b
+	animation: rotatePulse 100s infinite linear, partationPulse 5s 1 linear
+
+@keyframes rotatePulse
+	0%
+		transform: rotate(0deg)
+		box-shadow: 35px 30px 1px -15px #DB9E36
+	20%
+		box-shadow: 35px 30px 1px -15px #FFFAD5
+	40%
+		box-shadow: 35px 30px 1px -15px #FFD34E
+	60%
+		box-shadow: 35px 30px 1px -15px #DB9E36
+	80%
+		box-shadow: 35px 30px 1px -15px #ea7962
+	100%
+		transform: rotate(360deg)
+		box-shadow: 35px 30px 1px -15px #DB9E36
+
+@keyframes partationPulse
+	0%
+		box-shadow: 0px 0px 1px -20px #fdd57b
+	100%
+		box-shadow: 35px 30px 1px -15px #fdd57b
+
+
+
+=rotateShadowPulseF($shadow-color,$name)
+	@keyframes rotateShadowPulse#{$name}
+		0%
+			text-shadow: 2px -1px 0 $shadow-color
+		25%
+			text-shadow: 2px 1px 0 $shadow-color
+		50%
+			text-shadow: -2px 1px 0 $shadow-color
+		75%
+			text-shadow: -2px -1px 0 $shadow-color
+		100%
+			text-shadow: 2px -1px 0 $shadow-color
+
++rotateShadowPulseF(#fdd57b,1)
++rotateShadowPulseF(white,2)
+
+
+
+.ribbon3
+	width: 52px
+	height: 50px
+	line-height: 50px
+	//padding-left: 15px
+	position: absolute
+	left: -8px
+	top: 20px
+	background: #3c93d5
+	color: #fffad5
+	border-bottom-right-radius: 28px
+	&:before
+		content: ""
+		position: absolute
+	&:before
+		height: 0
+		width: 0
+		top: -8.5px
+		left: 0.1px
+		border-bottom: 8px solid #3d5684
+		border-left: 8px solid transparent
+
+
+@import "common.blocks/**/*"
 
 @import "media" // Always at the end

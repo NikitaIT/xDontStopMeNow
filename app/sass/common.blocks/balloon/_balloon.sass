@@ -1,0 +1,42 @@
+#balloon
+	g
+		transform: scale(.95) translate(4px,4px)
+	@keyframes dasharray
+		100%
+			stroke: rgba(0,0,0, .5)
+			stroke-dasharray: 0 500
+			fill-opacity: 0
+	path
+		fill: none
+		stroke-width: 1
+		stroke: rgba(0,0,0, .5)
+		stroke-dasharray: 550 0
+		animation: dasharray 10s infinite alternate
+		&:nth-child(8n+3)
+			fill: #C24704
+			animation-delay: .4s
+		&:nth-child(8n+4)
+			fill: #D9CC3C
+			animation-delay: 1s
+		&:nth-child(8n+5)
+			fill: #FFEB79
+			animation-delay: 1.6s
+		&:nth-child(8n+6)
+			fill: #A0E0A9
+			animation-delay: 2s
+		&:nth-child(8n+7)
+			fill: #00ADA7
+			animation-delay: 2.6s
+		&:nth-child(8n)
+			fill: darken(#00ADA7, 15%)
+			animation-delay: 3s
+
+	@keyframes fly
+		100%
+			transform: translateY(-85vh)
+.balloon
+	position: absolute
+	bottom: 0
+	left: 40px
+	transition: 3s ease-in
+	animation: fly 10s forwards

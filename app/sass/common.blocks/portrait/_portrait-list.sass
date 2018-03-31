@@ -1,0 +1,35 @@
+.portrait-list
+	width: 100%
+	display: flex
+	flex-wrap: wrap
+	justify-content: space-around
+	&__item
+		height: 300px
+
+/*==========  Mobile First  ==========*/
+
+//Extra small: <576px
++media-breakpoint-up(xs)
+	.portrait-list
+		&__item
+			width: 100%
+//Small: ≤576px
++media-breakpoint-up(sm)
+	.portrait-list
+		&__item
+			width: 100%
+//Medium: ≤768px
++media-breakpoint-up(md)
+	.portrait-list
+		&__item
+			width: 50%
+//Large: ≤992px
++media-breakpoint-up(lg)
+	.portrait-list
+		&__item
+			width: 25%
+//Extra large: ≤1200px
++media-breakpoint-up(xl)
+	.portrait-list
+		&__item
+			width: 20%

@@ -1,17 +1,20 @@
-var gulp          = require('gulp'),
-		gutil         = require('gulp-util' ),
-		sass          = require('gulp-sass'),
-		browsersync   = require('browser-sync'),
-		concat        = require('gulp-concat'),
-		uglify        = require('gulp-uglify'),
-		cleancss      = require('gulp-clean-css'),
-		rename        = require('gulp-rename'),
-		autoprefixer  = require('gulp-autoprefixer'),
-		notify        = require("gulp-notify"),
-		rsync         = require('gulp-rsync'),
-		babel         = require('gulp-babel'),
-		jsdoc 		  = require('gulp-jsdoc3');
-
+var gulp					= require('gulp'),
+		gutil				 = require('gulp-util' ),
+		sass					= require('gulp-sass'),
+		browsersync	 = require('browser-sync'),
+		concat				= require('gulp-concat'),
+		uglify				= require('gulp-uglify'),
+		cleancss			= require('gulp-clean-css'),
+		rename				= require('gulp-rename'),
+		del         	= require('del'),
+		imagemin       = require('gulp-imagemin'),
+		cache          = require('gulp-cache'),
+		autoprefixer	= require('gulp-autoprefixer'),
+		notify				= require("gulp-notify"),
+		rsync				 = require('gulp-rsync'),
+		babel				 = require('gulp-babel'),
+		jsdoc 				= require('gulp-jsdoc3'),
+		sassGlob			= require('gulp-sass-glob');
 gulp.task('browser-sync', function() {
 	browsersync({
 		server: {
@@ -25,16 +28,17 @@ gulp.task('browser-sync', function() {
 });
 
 gulp.task('doc', function (cb) {
-    gulp.src(['README.md', 'app/js/*.js'], {read: false})
-        .pipe(jsdoc(cb));
+		gulp.src(['README.md', 'app/js/*.js'], {read: false})
+				.pipe(jsdoc(cb));
 });
 
 gulp.task('sass', function() {
 	return gulp.src('app/sass/**/*.sass')
+	.pipe(sassGlob())
 	.pipe(sass({ outputStyle: 'expand' }).on("error", notify.onError()))
 	.pipe(rename({ suffix: '.min', prefix : '' }))
 	.pipe(autoprefixer(['last 15 versions']))
-	.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
+	//.pipe(cleancss( {level: { 1: { specialComments: 0 } } })) // Opt., comment out when debugging
 	.pipe(gulp.dest('app/css'))
 	.pipe(browsersync.reload( {stream: true} ))
 });
@@ -73,3 +77,32 @@ gulp.task('watch', ['sass', 'js', 'browser-sync'], function() {
 });
 
 gulp.task('default', ['watch']);
+
+gulp.task('build', ['removedist', 'imagemin', 'sass', 'js'], function() {
+
+	var buildFiles = gulp.src([
+		'app/*.html',
+		'app/.htaccess',
+		]).pipe(gulp.dest('dist'));
+
+	var buildCss = gulp.src([
+		'app/css/main.min.css',
+		]).pipe(gulp.dest('dist/css'));
+
+	var buildJs = gulp.src([
+		'app/js/scripts.min.js',
+		]).pipe(gulp.dest('dist/js'));
+
+	var buildFonts = gulp.src([
+		'app/fonts/**/*',
+		]).pipe(gulp.dest('dist/fonts'));
+
+});
+
+gulp.task('removedist', function() { return del.sync(['dist/**', '!dist/.git', '!dist']); });
+gulp.task('imagemin', function() {
+	return gulp.src('app/img/**/*')
+	.pipe(cache(imagemin()))
+	.pipe(gulp.dest('dist/img'));
+});
+gulp.task('clearcache', function () { return cache.clearAll(); });
